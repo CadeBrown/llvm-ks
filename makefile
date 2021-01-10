@@ -6,8 +6,14 @@
 
 # -*- Config -*-
 
+# kscript module name
+NAME           ?= llvm
+
 # kscript directory
 KS             ?= /usr/local
+
+# output prefix
+PREFIX         ?= $(KS)
 
 # Add from the LLVM configuration
 CXXFLAGS       += `llvm-config --cxxflags`
@@ -17,9 +23,9 @@ LDFLAGS        += -Wl,-znodelete `llvm-config core native --link-static --ldflag
 CXXFLAGS       += -I$(KS)/include
 LDFLAGS        += -L$(KS)/lib
 
-
 # DEBUG
 #CXXFLAGS += -g
+
 
 # -*- Files -*-
 
@@ -31,21 +37,30 @@ src_O          := $(patsubst %.cc,%.o,$(src_CC))
 
 # -*- Output -*-
 
-mod_SO         := libksm_llvm.so
-
+# output shared object file
+mod_SO         := ksm_$(NAME).so
 
 
 # -*- Rules -*-
 
-.PHONY: default all clean
+.PHONY: default all clean install uninstall FORCE
 
 
 default: $(mod_SO)
 
 all: $(mod_SO)
 
-clean:
+clean: FORCE
 	rm -f $(wildcard $(src_O) $(mod_SO))
+
+install: FORCE
+	install -d $(PREFIX)/lib/ks/pkgs/$(NAME)
+	install -m 664 $(mod_SO) $(PREFIX)/lib/ks/pkgs/$(NAME)/$(notdir $(mod_SO))
+	strip $(PREFIX)/lib/ks/pkgs/$(NAME)/$(notdir $(mod_SO))
+
+uninstall: FORCE
+
+FORCE:
 
 $(mod_SO): $(src_O)
 	$(CXX) $(FPIC) \

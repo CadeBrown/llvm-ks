@@ -146,5 +146,3 @@ void _ksllvmi_Type();
 void _ksllvmi_Value();
 
 #endif /* LLVM_KS_HH__ */
-
-

@@ -26,6 +26,8 @@ static ks_module get() {
 
     ks_module res = ks::make_module(M_NAME, "", "LLVM bindings for kscript", {
 
+        /* Constants */
+
         /* Types */
         {"Context",                (kso)ksllvmt_Context},
         {"IRBuilder",              (kso)ksllvmt_IRBuilder},

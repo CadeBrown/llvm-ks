@@ -7,7 +7,7 @@
 # -*- Config -*-
 
 # kscript module name
-NAME           ?= llvm
+NAME           := llvm
 
 # kscript directory
 KS             ?= /usr/local

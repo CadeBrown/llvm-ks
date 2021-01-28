@@ -12,8 +12,10 @@ NAME           := llvm
 # kscript directory
 KS             ?= /usr/local
 
-# output prefix
-PREFIX         ?= $(KS)
+# install path
+PREFIX         := /usr/local
+DESTDIR        ?= 
+TODIR          := $(DESTDIR)$(PREFIX)
 
 # Add from the LLVM configuration
 CXXFLAGS       += `llvm-config --cxxflags`
@@ -54,11 +56,12 @@ clean: FORCE
 	rm -f $(wildcard $(src_O) $(mod_SO))
 
 install: FORCE
-	install -d $(PREFIX)/lib/ks/pkgs/$(NAME)
-	install -m 664 $(mod_SO) $(PREFIX)/lib/ks/pkgs/$(NAME)/$(notdir $(mod_SO))
-	strip $(PREFIX)/lib/ks/pkgs/$(NAME)/$(notdir $(mod_SO))
+	install -d $(TODIR)/lib/ks/pkgs/$(NAME)
+	install -m 664 $(mod_SO) $(TODIR)/lib/ks/pkgs/$(NAME)/$(notdir $(mod_SO))
+	strip $(TODIR)/lib/ks/pkgs/$(NAME)/$(notdir $(mod_SO))
 
 uninstall: FORCE
+	rm -rf $(TODIR)/lib/ks/pkgs/$(NAME)
 
 FORCE:
 

@@ -7,6 +7,8 @@
 #include <ks/cext.h>
 
 
+/* Internals */
+
 
 /* Export */
 
@@ -27,6 +29,7 @@ static ks_module get() {
     ks_module res = ks::make_module(M_NAME, "", "LLVM bindings for kscript", {
 
         /* Constants */
+        {"version",                (kso)ks_str_new(-1, LLVM_VERSION_STRING)},
 
         /* Types */
         {"Context",                (kso)ksllvmt_Context},
@@ -35,6 +38,8 @@ static ks_module get() {
         {"BasicBlock",             (kso)ksllvmt_BasicBlock},
         {"Type",                   (kso)ksllvmt_Type},
         {"Value",                  (kso)ksllvmt_Value},
+
+        /* Functions */
 
     });
 

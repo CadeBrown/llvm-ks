@@ -56,7 +56,7 @@ void _ksllvmi_Module() {
 
     ksllvmt_Module = ks::make_type(T_NAME, kst_object, sizeof(ksllvm_Module_s), -1, "LLVM Module", {
         {"__free",                 ksf_wrap(T_free_, T_NAME ".__free(self)", "")},
-        {"__init",                 ksf_wrap(T_init_, T_NAME ".__init(self)", "")},
+        {"__init",                 ksf_wrap(T_init_, T_NAME ".__init(self, name, ctx)", "")},
         {"__repr",                 ksf_wrap(T_str_, T_NAME ".__repr(self)", "")},
         {"__str",                  ksf_wrap(T_str_, T_NAME ".__str(self)", "")},
 

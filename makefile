@@ -17,8 +17,10 @@ PREFIX         := /usr/local
 DESTDIR        ?= 
 TODIR          := $(DESTDIR)$(PREFIX)
 
+LLVM_CFLAGS    := $(shell llvm-config --cxxflags)
+
 # Add from the LLVM configuration
-CXXFLAGS       += `llvm-config --cxxflags`
+CXXFLAGS       += $(LLVM_CFLAGS)
 LDFLAGS        += -Wl,-znodelete `llvm-config core native --link-static --ldflags --libs` -ldl -lm
 
 # Add from the kscript configuration

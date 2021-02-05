@@ -39,6 +39,20 @@ static KS_TFUNC(T, new) {
 }
 
 
+static KS_TFUNC(T, str) {
+    ksllvm_Type self;
+    KS_ARGS("self:*", &self, ksllvmt_Type);
+
+    /* Build up stream */
+    string sval;
+    raw_string_ostream svals(sval);
+    svals << *self->val;
+    svals.flush();
+
+    return (kso)ks::make_str(sval);
+}
+
+
 static KS_TFUNC(T, call) {
     ksllvm_Type self;
     kso arg = KSO_NONE;
@@ -176,7 +190,11 @@ void _ksllvmi_Type() {
     ksllvmt_Type = ks::make_type(T_NAME, kst_object, sizeof(ksllvm_Type_s), -1, "LLVM Type", {
         {"__free",                 ksf_wrap(T_free_, T_NAME ".__free(self)", "")},
         {"__new",                  ksf_wrap(T_new_, T_NAME ".__new(self)", "")},
+        {"__repr",                 ksf_wrap(T_str_, T_NAME ".__repr(self)", "")},
+        {"__str",                  ksf_wrap(T_str_, T_NAME ".__str(self)", "")},
+
         {"__call",                 ksf_wrap(T_call_, T_NAME ".__call(self, obj=none)", "Create an 'llvm.Value' from a type, by converting it")},
+
 
         {"Int",                    ksf_wrap(T_Int_, T_NAME ".Int(ctx, bits=32)", "Get an integral type with the given number of bits. Signedness is in the operations, not type (so there is no distiction between 'signed' and 'unsigned' here)")},
 
